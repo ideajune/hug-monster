@@ -7,7 +7,13 @@ import { MobileBottomCta } from "@/components/MobileBottomCta";
 import { FloatingHomeButton } from "@/components/FloatingHomeButton";
 import { BRAND_INFO } from "@/lib/site-data";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://hugmonster.kr";
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : "https://hug-monster777.vercel.app");
 const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const isRealGaId = gaId && gaId !== "G-XXXXXXXXXX" && gaId.startsWith("G-");
 
@@ -36,6 +42,20 @@ export const metadata: Metadata = {
     siteName: "HUG MONSTER (허그몬스터)",
     title: "HUG MONSTER | 사람들은 광고를 피하지만, 즐거운 경험은 스스로 공유합니다",
     description: BRAND_INFO.description,
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "HUG MONSTER 공식 로고",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "HUG MONSTER | 사람들은 광고를 피하지만, 즐거운 경험은 스스로 공유합니다",
+    description: BRAND_INFO.description,
+    images: ["/images/og-image.png"],
   },
   robots: {
     index: true,
