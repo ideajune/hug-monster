@@ -94,7 +94,7 @@ export const BRAND_INFO = {
     companyName: "영팩토리얼",
     businessNumber: "699-86-03757",
     phone: "010-7710-3801",
-    email: "contact@hugmonster.kr",
+    email: "captainhook2027@gmail.com",
     address: "서울특별시 강남구 삼성로103길 6, 2층",
     operatingHours: "평일 09:30 ~ 18:30 (주말·공휴일 행사 상시 운영)",
   },
