@@ -1,0 +1,74 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary-yellow: #F3C65F;
+  --color-primary-orange: #F26430;
+  --color-deep-navy: #0F172A;
+  --color-sky-blue: #38BDF8;
+  --color-soft-pink: #F472B6;
+  --color-off-white: #FAF9F6;
+  --color-light-gray: #F3F4F6;
+  --color-text: #1E293B;
+  --color-muted: #64748B;
+
+  --font-korean: "Pretendard Variable", "Pretendard", "Noto Sans KR", sans-serif;
+  --font-english: "Poppins", "Montserrat", sans-serif;
+
+  --container-max: 1280px;
+  --radius-card: 20px;
+  --radius-button: 999px;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-off-white);
+  color: var(--color-text);
+  font-family: var(--font-korean);
+}
+
+body {
+  background-color: var(--color-off-white);
+  color: var(--color-text);
+  overflow-x: hidden;
+  word-break: keep-all;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-primary-orange);
+  outline-offset: 2px;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-float {
+  animation: floatSlow 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-float {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
