@@ -151,7 +151,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 3. 운영 구조 (50:50 하이브리드 & SOP) */}
+      {/* 3. 운영 구조 (직영 보유 & 책임 운영) */}
       <section className="py-14 md:py-20 bg-brand-navy text-white px-5 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-container space-y-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -160,10 +160,10 @@ export default function AboutPage() {
                 OPERATING MODEL
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold">
-                유연한 공급 · 검증된 현장 운영
+                거품 없는 직영 보유 · 8시간 책임 운영
               </h2>
               <p className="text-sm text-slate-300">
-                행사 목적과 규모에 맞춰 최적의 캐릭터와 전문 인력을 배정합니다.
+                중개 수수료를 없앤 직영 코스튬 관리와 성실한 전담 인력으로 합리적인 가격과 높은 만족도를 동시에 약속합니다.
               </p>
             </div>
 
@@ -171,20 +171,20 @@ export default function AboutPage() {
               <div className="rounded-2xl bg-white/5 border border-white/10 p-5 space-y-2">
                 <Layers className="h-5 w-5 text-brand-yellow" />
                 <h3 className="text-base font-extrabold text-white">
-                  자체 50% + 파트너 조달 50%
+                  100% 직영 보유 · 살균 코스튬
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  자체 주력 캐릭터와 외부 파트너 네트워크를 결합해 소규모 매장부터 대형 축제까지 유연하게 대응합니다.
+                  외부 대여 거품 없이 직접 보유하고 매 행사 전후 스팀 살균·검수하는 청결한 코스튬만 투입하여 종일 정찰가를 실현했습니다.
                 </p>
               </div>
 
               <div className="rounded-2xl bg-white/5 border border-white/10 p-5 space-y-2">
                 <HeartHandshake className="h-5 w-5 text-brand-orange" />
                 <h3 className="text-base font-extrabold text-white">
-                  사전 운영 계획(SOP) 기반 실행
+                  성실한 전담 액터 · SOP 실행
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                  가용성 확인 및 계약 확정 후, 시간대별 거점 동선과 안전 기준을 담은 운영 계획서로 현장을 운영합니다.
+                  시간 약속과 책임감이 검증된 전담 액터가 사전 운영 계획서(SOP)와 안전 기준에 맞춰 하루 종일 현장을 든든하게 운영합니다.
                 </p>
               </div>
             </div>

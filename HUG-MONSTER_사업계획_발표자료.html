@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HUG MONSTER — 사업계획 발표자료 (간결판)</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --navy: #141e30;
+      --slate: #475569;
+      --muted: #94a3b8;
+      --line: #e2e8f0;
+      --bg: #faf8f5;
+      --orange: #ea580c;
+      --orange-soft: #fff7ed;
+      --yellow: #ffd84d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Malgun Gothic", sans-serif;
+      background: #0b1120;
+      color: var(--navy);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .app {
+      display: flex;
+      flex-direction: column;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .stage-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .viewport {
+      width: 1280px;
+      height: 720px;
+      transform-origin: center center;
+      background: var(--bg);
+      border-radius: 16px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Slide Common */
+    .slide {
+      display: none;
+      width: 1280px;
+      height: 720px;
+      padding: 64px 80px 52px;
+      background: var(--bg);
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    .slide.dark {
+      background: linear-gradient(135deg, #141e30 0%, #1e2f4d 100%);
+      color: #ffffff;
+    }
+
+    .step-tag {
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+
+    .dark .step-tag {
+      color: var(--yellow);
+    }
+
+    .headline {
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+    }
+
+    .headline span {
+      color: var(--orange);
+    }
+
+    .dark .headline span {
+      color: var(--yellow);
+    }
+
+    .slide-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+
+    .dark .slide-foot {
+      border-top-color: rgba(255, 255, 255, 0.12);
+    }
+
+    /* Cards & Grids */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+
+    .box {
+      background: #ffffff;
+      border: 1.5px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+    }
+
+    .box.muted {
+      background: #f1f5f9;
+      border-color: #e2e8f0;
+    }
+
+    .box.point {
+      background: #ffffff;
+      border: 2.5px solid var(--orange);
+      box-shadow: 0 12px 30px rgba(234, 88, 12, 0.08);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .pill-gray { background: #e2e8f0; color: #475569; }
+    .pill-orange { background: #ffedd5; color: var(--orange); }
+    .pill-navy { background: var(--navy); color: #ffffff; }
+    .pill-yellow { background: var(--yellow); color: var(--navy); }
+
+    .big-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.45;
+      margin-top: 16px;
+    }
+
+    .big-list li {
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .big-list li::before {
+      content: "•";
+      position: absolute;
+      left: 6px;
+      color: var(--orange);
+      font-weight: 900;
+    }
+
+    .big-list.bad li::before {
+      content: "✕";
+      left: 0;
+      color: #dc2626;
+      font-size: 17px;
+      top: 3px;
+    }
+
+    .big-list.good li::before {
+      content: "✓";
+      left: 0;
+      color: var(--orange);
+      font-weight: 900;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      height: 48px;
+      background: #0f172a;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      color: #cbd5e1;
+      font-size: 13px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn:hover { background: rgba(255, 255, 255, 0.18); }
+    .btn.primary { background: var(--orange); border-color: var(--orange); }
+
+    @page {
+      size: 338.67mm 190.5mm;
+      margin: 0;
+    }
+
+    @media print {
+      html, body {
+        width: 1280px !important;
+        height: auto !important;
+        overflow: visible !important;
+        background: #fff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .app, .stage-wrap { display: block !important; padding: 0 !important; width: 1280px !important; height: auto !important; }
+      .toolbar { display: none !important; }
+      .viewport { transform: none !important; box-shadow: none !important; border-radius: 0 !important; height: auto !important; }
+      .slide { display: flex !important; page-break-after: always !important; break-after: page !important; }
+      .slide:last-child { page-break-after: auto !important; break-after: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="stage-wrap" id="stageWrap">
+      <div class="viewport" id="viewport">
+
+        <!-- 01. 표지 -->
+        <section class="slide dark active">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <img src="./public/images/logo-header.png" alt="HUG MONSTER" style="height:44px; background:#fff; padding:5px 12px; border-radius:10px;" onerror="this.style.display='none'" />
+            <span style="color:#94a3b8; font-size:14px; font-weight:600;">영팩토리얼 · 내부 검토 및 파트너 공유용</span>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1.25fr 0.75fr; gap:48px; align-items:center;">
+            <div>
+              <div class="step-tag">OFFLINE EXPERIENCE MARKETING</div>
+              <h1 style="font-size:52px; font-weight:800; line-height:1.2; letter-spacing:-0.03em; margin-bottom:24px;">
+                전단지 대신,<br />
+                <span style="color:var(--yellow);">줄 서고 사진 찍는</span><br />
+                오프라인 경험을 팝니다
+              </h1>
+              <p style="font-size:20px; color:#cbd5e1; font-weight:500;">
+                캐릭터 인형탈 퍼포먼스 &amp; 표준 현장 운영 솔루션 <strong>HUG MONSTER</strong>
+              </p>
+            </div>
+            <div>
+              <img src="./public/images/characters/hugmon.jpg" alt="허그몬" style="width:100%; height:340px; object-fit:cover; border-radius:24px; border:2px solid rgba(255,255,255,0.18);" />
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>01 / 07</span>
+          </div>
+        </section>
+
+        <!-- 02. 문제와 해결책 -->
+        <section class="slide">
+          <div>
+            <div class="step-tag">01 · WHY HUG MONSTER</div>
+            <h2 class="headline">버려지는 전단지를 <span>‘스스로 찍어 올리는 경험’</span>으로 바꿉니다</h2>
+          </div>
+
+          <div class="grid-2" style="align-items:stretch;">
+            <div class="box muted">
+              <span class="pill pill-gray">기존 길거리 전단지</span>
+              <h3 style="font-size:28px; font-weight:800; margin-bottom:8px;">돈만 쓰고 외면받는 홍보</h3>
+              <ul class="big-list bad" style="color:var(--slate);">
+                <li>이어폰·스마트폰 행인의 철저한 외면</li>
+                <li>받자마자 쓰레기통으로 직행</li>
+                <li>온라인(SNS) 2차 확산 효과 0%</li>
+              </ul>
+            </div>
+
+            <div class="box point">
+              <span class="pill pill-orange">HUG MONSTER 솔루션</span>
+              <h3 style="font-size:28px; font-weight:800; margin-bottom:8px;">3단계로 매출을 만드는 경험</h3>
+              <ul class="big-list good">
+                <li><strong>시선 정지:</strong> 2m 캐릭터 등장으로 발걸음 멈춤</li>
+                <li><strong>호감 연결:</strong> 하이파이브 후 쿠폰·초대장 직접 수령</li>
+                <li><strong>SNS 확산:</strong> 고객이 찍은 인증샷이 동네 인스타로 확산</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>02 / 07</span>
+          </div>
+        </section>
+
+        <!-- 03. 타깃 시장 & 캐릭터 공급 -->
+        <section class="slide">
+          <div>
+            <div class="step-tag">02 · TARGET &amp; LINEUP</div>
+            <h2 class="headline">결정이 빠른 <span>‘오픈 매장’</span>부터 공략하고, 재고 부담은 낮춥니다</h2>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:24px;">
+            <div class="grid-3">
+              <div class="box point" style="padding:24px 26px;">
+                <span class="pill pill-orange" style="margin-bottom:8px;">1순위 · 빠른 현금흐름</span>
+                <div style="font-size:24px; font-weight:800;">신규 오픈 매장</div>
+                <div style="font-size:16px; color:var(--slate); margin-top:6px;">식당 · 카페 · 소아과 · 학원</div>
+              </div>
+              <div class="box" style="padding:24px 26px;">
+                <span class="pill pill-navy" style="margin-bottom:8px;">2순위 · 바이럴 레퍼런스</span>
+                <div style="font-size:24px; font-weight:800;">브랜드 팝업스토어</div>
+                <div style="font-size:16px; color:var(--slate); margin-top:6px;">성수 · 강남 · 쇼핑몰 대기줄</div>
+              </div>
+              <div class="box" style="padding:24px 26px;">
+                <span class="pill pill-gray" style="margin-bottom:8px;">3순위 · 고단가 수익</span>
+                <div style="font-size:24px; font-weight:800;">기업 행사 · 지역 축제</div>
+                <div style="font-size:16px; color:var(--slate); margin-top:6px;">창립기념일 · 거리 퍼레이드</div>
+              </div>
+            </div>
+
+            <div class="box muted" style="padding:22px 26px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+                <strong style="font-size:18px;">6종 캐릭터 라인업 운영 방식</strong>
+                <span style="font-size:15px; font-weight:700; color:var(--orange);">주력 의상은 직접 보유(마진 확보) + 시즌 의상은 대여 제휴(고정비 절감)</span>
+              </div>
+              <div class="grid-6">
+                <div style="text-align:center;"><img src="./public/images/characters/hugmon.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">허그몬</div></div>
+                <div style="text-align:center;"><img src="./public/images/characters/dino.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">다이노 그린</div></div>
+                <div style="text-align:center;"><img src="./public/images/characters/bear.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">허니 베어</div></div>
+                <div style="text-align:center;"><img src="./public/images/characters/bunny.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">피치 버니</div></div>
+                <div style="text-align:center;"><img src="./public/images/characters/lion.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">써니 라이온</div></div>
+                <div style="text-align:center;"><img src="./public/images/characters/rudolph.jpg" alt="" style="width:100%; height:88px; object-fit:cover; border-radius:10px;" /><div style="font-size:14px; font-weight:700; margin-top:6px;">산타·루돌프</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>03 / 07</span>
+          </div>
+        </section>
+
+        <!-- 04. 가격 정책 & 수익성 (초심플 정찰제) -->
+        <section class="slide">
+          <div>
+            <div class="step-tag">03 · SIMPLE PRICING &amp; PROFIT</div>
+            <h2 class="headline">복잡한 옵션 없이 <span>‘1일(8시간) · 인원당 정찰제’</span>로 심플하게 운영합니다</h2>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:22px;">
+            <div class="grid-3">
+              <div class="box" style="text-align:center; padding:34px 26px;">
+                <span class="pill pill-navy">캐릭터 1명 · 1일(8시간)</span>
+                <div style="font-size:48px; font-weight:800; margin:6px 0 4px;">22만 원</div>
+                <div style="font-size:15px; color:var(--slate); margin-bottom:20px;">부가세 포함 (공급가 20만 원)</div>
+                <div style="padding-top:18px; border-top:1.5px solid var(--line); font-size:18px; line-height:1.7;">
+                  시니어 인건비 <strong>10만 원</strong><br />
+                  <strong style="color:var(--orange); font-size:21px;">건당 순익 10만 원</strong>
+                </div>
+              </div>
+
+              <div class="box point" style="text-align:center; padding:34px 26px;">
+                <span class="pill pill-orange">캐릭터 2명 · 1일(8시간)</span>
+                <div style="font-size:48px; font-weight:800; color:var(--orange); margin:6px 0 4px;">44만 원</div>
+                <div style="font-size:15px; color:var(--slate); margin-bottom:20px;">부가세 포함 (공급가 40만 원)</div>
+                <div style="padding-top:18px; border-top:1.5px solid var(--line); font-size:18px; line-height:1.7;">
+                  시니어 인건비 <strong>20만 원</strong><br />
+                  <strong style="color:var(--orange); font-size:21px;">건당 순익 20만 원</strong>
+                </div>
+              </div>
+
+              <div class="box muted" style="text-align:center; padding:34px 26px;">
+                <span class="pill pill-gray">인원 추가 규칙 (3명+)</span>
+                <div style="font-size:44px; font-weight:800; margin:8px 0 4px;">+22만 원<span style="font-size:22px;">/명</span></div>
+                <div style="font-size:15px; color:var(--slate); margin-bottom:20px;">부가세 포함 · 1명 추가당 동일 적용</div>
+                <div style="padding-top:18px; border-top:1.5px solid #cbd5e1; font-size:18px; line-height:1.7;">
+                  인건비 <strong>+10만 원</strong> 추가<br />
+                  <strong>순익 +10만 원</strong> 추가
+                </div>
+              </div>
+            </div>
+
+            <div class="box muted" style="padding:18px 28px; display:flex; justify-content:space-between; align-items:center; font-size:17px;">
+              <span><strong>운영 기준:</strong> 인형탈 <strong>자체 구입 운영</strong> (초기 구입비 별도 · 대여료 0원)</span>
+              <span style="color:var(--orange); font-weight:800;">1인당 수익 공식 = 인건비 10만 + 순익 10만 + 부가세 2만 (마진율 50%)</span>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>04 / 07</span>
+          </div>
+        </section>
+
+        <!-- 05. 시니어 인력 & 현장 운영 -->
+        <section class="slide">
+          <div>
+            <div class="step-tag">04 · SENIOR CREW &amp; OPERATION</div>
+            <h2 class="headline">성실한 <span>‘시니어 인력’</span>과 <span>교대 휴식 원칙</span>으로 8시간을 안정 운영합니다</h2>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:26px;">
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:16px; text-align:center;">
+              <div class="box" style="padding:22px 16px;"><div style="color:var(--orange); font-weight:800; font-size:13px;">STEP 1</div><div style="font-size:20px; font-weight:800; margin-top:4px;">간편 예약</div><div style="font-size:15px; color:var(--slate); margin-top:4px;">1인(22만) / 2인(44만)</div></div>
+              <div class="box" style="padding:22px 16px;"><div style="color:var(--orange); font-weight:800; font-size:13px;">STEP 2</div><div style="font-size:20px; font-weight:800; margin-top:4px;">자체 의상 배정</div><div style="font-size:15px; color:var(--slate); margin-top:4px;">살균·점검 완료 의상</div></div>
+              <div class="box point" style="padding:22px 16px;"><div style="color:var(--orange); font-weight:800; font-size:13px;">STEP 3</div><div style="font-size:20px; font-weight:800; margin-top:4px;">1일(8h) 현장 운영</div><div style="font-size:15px; color:var(--slate); margin-top:4px;">시니어 크루 근거리 투입</div></div>
+              <div class="box" style="padding:22px 16px;"><div style="color:var(--orange); font-weight:800; font-size:13px;">STEP 4</div><div style="font-size:20px; font-weight:800; margin-top:4px;">사진 공유 · 회수</div><div style="font-size:15px; color:var(--slate); margin-top:4px;">현장 인증샷 전달</div></div>
+            </div>
+
+            <div class="grid-3">
+              <div class="box muted" style="padding:26px;">
+                <div style="font-size:21px; font-weight:800; margin-bottom:8px;">① 검증된 시니어 인력 풀</div>
+                <p style="font-size:16px; color:var(--slate); line-height:1.55;">시간 약속과 책임감이 뛰어나며, 평일·종일(8시간) 인력 수급이 안정적입니다.</p>
+              </div>
+              <div class="box muted" style="padding:26px;">
+                <div style="font-size:21px; font-weight:800; margin-bottom:8px;">② 무리 없는 휴식 사이클</div>
+                <p style="font-size:16px; color:var(--slate); line-height:1.55;">8시간 체류 중 피크타임 집중 활동과 충분한 실내 휴식을 병행해 안전을 지킵니다.</p>
+              </div>
+              <div class="box muted" style="padding:26px;">
+                <div style="font-size:21px; font-weight:800; margin-bottom:8px;">③ 비접촉 · 친화 퍼포먼스</div>
+                <p style="font-size:16px; color:var(--slate); line-height:1.55;">과격한 동작 없이 손인사·하이파이브·포토존 중심으로 안전하게 집객합니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>05 / 07</span>
+          </div>
+        </section>
+
+        <!-- 06. 팀 역할 분담 -->
+        <section class="slide">
+          <div>
+            <div class="step-tag">05 · SIMPLE R&amp;R</div>
+            <h2 class="headline">외부 대여 없이 <span>‘영업 · 시니어 인력 · 자체 의상’</span> 3축으로 단순화합니다</h2>
+          </div>
+
+          <div class="grid-3">
+            <div class="box point" style="padding:32px 28px;">
+              <span class="pill pill-orange">01 · 영업 및 총괄</span>
+              <h3 style="font-size:26px; font-weight:800; margin-bottom:14px;">수주 · 스케줄 컨트롤</h3>
+              <p style="font-size:17.5px; color:var(--slate); line-height:1.7;">
+                • 오픈 매장 · 지역 행사 영업<br />
+                • 홈페이지 · 카톡 간편 예약 접수<br />
+                • 계약 및 세금계산서 정산
+              </p>
+            </div>
+
+            <div class="box" style="padding:32px 28px;">
+              <span class="pill pill-navy">02 · 인력 운영</span>
+              <h3 style="font-size:26px; font-weight:800; margin-bottom:14px;">시니어 크루 매니지먼트</h3>
+              <p style="font-size:17.5px; color:var(--slate); line-height:1.7;">
+                • 시니어 일자리 기관 연계 모집<br />
+                • 사전 안전 · 인사 제스처 교육<br />
+                • 거주지 기반 근거리 현장 배정
+              </p>
+            </div>
+
+            <div class="box" style="padding:32px 28px;">
+              <span class="pill pill-gray">03 · 자산 및 콘텐츠</span>
+              <h3 style="font-size:26px; font-weight:800; margin-bottom:14px;">자체 의상 · 홍보 관리</h3>
+              <p style="font-size:17.5px; color:var(--slate); line-height:1.7;">
+                • 자체 구입 인형탈 살균 · 보관<br />
+                • 행사장 의상 전달 및 회수<br />
+                • 현장 인증샷 · SNS 홍보 자산화
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>HUG MONSTER 사업계획 요약</span>
+            <span>06 / 07</span>
+          </div>
+        </section>
+
+        <!-- 07. 실행 로드맵 & 수익 목표 -->
+        <section class="slide dark">
+          <div>
+            <div class="step-tag">06 · ROADMAP &amp; TARGET</div>
+            <h2 class="headline">압도적 가성비<span>(종일 22만 원)</span>로 빠르게 시장을 선점합니다</h2>
+          </div>
+
+          <div class="grid-3">
+            <div style="background:rgba(255,255,255,0.1); border:2px solid var(--yellow); border-radius:20px; padding:28px;">
+              <span class="pill pill-yellow">STEP 1 · 런칭 준비 (2주)</span>
+              <h3 style="font-size:24px; font-weight:800; margin-bottom:12px;">의상 구입 &amp; 시니어 모집</h3>
+              <p style="font-size:16.5px; color:#e2e8f0; line-height:1.65;">
+                1. 주력 캐릭터 인형탈 자체 구입<br />
+                2. 시니어 인력 풀 모집 및 안전 교육<br />
+                3. 실물 사진 촬영 및 홈페이지 반영
+              </p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16); border-radius:20px; padding:28px;">
+              <span class="pill pill-orange">STEP 2 · 초기 진입 (1~3개월)</span>
+              <h3 style="font-size:24px; font-weight:800; margin-bottom:12px;">의상 원금 회수 &amp; 10건 달성</h3>
+              <p style="font-size:16.5px; color:#cbd5e1; line-height:1.65;">
+                • 전단지 알바비 수준의 <strong>종일 22만 원</strong> 오퍼로 신규 오픈 매장 집중 공략<br />
+                • 의상당 5~6회 가동 시 구입비 회수 완료
+              </p>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.16); border-radius:20px; padding:28px;">
+              <span class="pill pill-orange">STEP 3 · 확장 (4~12개월)</span>
+              <h3 style="font-size:24px; font-weight:800; margin-bottom:12px;">월 30건+ 안정 수익화</h3>
+              <p style="font-size:16.5px; color:#cbd5e1; line-height:1.65;">
+                • 2인 구성(<strong>44만 원 · 순익 20만</strong>) 비중 확대<br />
+                • 지역별 시니어 크루 네트워크 확장으로 <strong>월 순익 400만~500만 원+</strong> 달성
+              </p>
+            </div>
+          </div>
+
+          <div class="slide-foot">
+            <span>영팩토리얼 · HUG MONSTER (010-7710-3801)</span>
+            <span>07 / 07</span>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div>
+        <strong style="color:#fff; margin-right:10px;">HUG MONSTER 사업계획 (간결판)</strong>
+        <span id="counter">01 / 07</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="prev">← 이전</button>
+        <button class="btn" id="next">다음 →</button>
+        <button class="btn" id="fs">전체화면 (F)</button>
+        <button class="btn primary" id="print">PDF 저장 / 인쇄</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const total = slides.length;
+      let idx = 0;
+
+      const wrap = document.getElementById('stageWrap');
+      const vp = document.getElementById('viewport');
+      const counter = document.getElementById('counter');
+
+      function fit() {
+        const s = Math.min((wrap.clientWidth - 40) / 1280, (wrap.clientHeight - 32) / 720);
+        vp.style.transform = 'scale(' + Math.max(0.2, s).toFixed(4) + ')';
+      }
+
+      function show(n) {
+        idx = Math.max(0, Math.min(total - 1, n));
+        slides.forEach((el, i) => el.classList.toggle('active', i === idx));
+        counter.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0');
+      }
+
+      document.getElementById('prev').onclick = () => show(idx - 1);
+      document.getElementById('next').onclick = () => show(idx + 1);
+      document.getElementById('print').onclick = () => window.print();
+      document.getElementById('fs').onclick = () => {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(() => {});
+        else document.exitFullscreen().catch(() => {});
+      };
+
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); show(idx + 1); }
+        if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); show(idx - 1); }
+        if (e.key.toLowerCase() === 'f') document.getElementById('fs').click();
+      });
+
+      window.addEventListener('resize', fit);
+      document.addEventListener('fullscreenchange', () => setTimeout(fit, 50));
+      show(0);
+      fit();
+    })();
+  </script>
+</body>
+</html>

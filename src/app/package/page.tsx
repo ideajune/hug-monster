@@ -10,86 +10,86 @@ import { PACKAGES, PACKAGE_ADDONS } from "@/lib/site-data";
 import { CtaBanner } from "@/components/CtaBanner";
 
 export const metadata: Metadata = {
-  title: "PACKAGE — 패키지 가격 및 구성 비교",
+  title: "PACKAGE — 1일(8시간) 정찰제 패키지 안내",
   description:
-    "STARTER(199,000원), BUSINESS(349,000원), PREMIUM(별도 견적) 패키지 구성 및 거래 조건 안내.",
+    "캐릭터 1명 22만 원, 2명 44만 원(1일 8시간 · 부가세 포함), 1명 추가당 +22만 원 투명 정찰제 패키지 안내.",
 };
 
 const COMPARISON_ROWS = [
   {
-    feature: "판매 가격",
-    starter: "199,000원",
-    business: "349,000원",
-    premium: "별도 견적",
+    feature: "판매 가격 (부가세 포함)",
+    starter: "220,000원",
+    business: "440,000원",
+    premium: "660,000원~ (+22만/명)",
   },
   {
     feature: "투입 캐릭터",
-    starter: "1명",
-    business: "2명",
-    premium: "3명+ 맞춤",
+    starter: "캐릭터 1명",
+    business: "캐릭터 2명",
+    premium: "캐릭터 3명 이상",
   },
   {
-    feature: "행사 시간",
-    starter: "2시간",
-    business: "3시간",
-    premium: "일정 협의",
+    feature: "운영 시간",
+    starter: "1일 (8시간 · 휴식 포함)",
+    business: "1일 (8시간 · 합동/교대)",
+    premium: "1일 (8시간 · 맞춤 동선)",
   },
   {
-    feature: "전단지 · 홍보물 배포",
+    feature: "코스튬 위생 · 관리",
+    starter: "직영 보유 · 스팀 살균",
+    business: "직영 보유 · 스팀 살균",
+    premium: "직영 보유 · 스팀 살균",
+  },
+  {
+    feature: "쿠폰 전달 · 포토타임",
     starter: "포함",
-    business: "포함",
-    premium: "맞춤 포함",
-  },
-  {
-    feature: "포토타임 · SNS 이벤트",
-    starter: "기본 인사 중심",
-    business: "포토타임 · SNS 참여 포함",
-    premium: "맞춤 포토존 · 캠페인 연출",
-  },
-  {
-    feature: "퍼포먼스 · 퍼레이드",
-    starter: "손인사 · 하이파이브",
-    business: "간단 율동 · 2인 호흡",
-    premium: "거리 퍼레이드 · 무대 연출",
+    business: "포토타임 · SNS 이벤트 포함",
+    premium: "단체 포토존 · 퍼레이드",
   },
   {
     feature: "운영 계획서 (SOP)",
-    starter: "기본 동선 협의",
+    starter: "사전 동선 협의",
     business: "맞춤 SOP 수립",
-    premium: "전문 연출·안전 계획서",
+    premium: "다거점 연출·안전 계획서",
+  },
+  {
+    feature: "세금계산서 · 현금영수증",
+    starter: "부가세 포함 · 발행 지원",
+    business: "부가세 포함 · 발행 지원",
+    premium: "기업·관공서 정산 서류 지원",
   },
 ];
 
 const SALES_CONDITION_ITEMS = [
   {
-    title: "부가세 (VAT) · 세금계산서",
-    status: "상담 시 안내",
-    detail: "부가세 포함 여부 및 세금계산서·현금영수증 발행 조건은 견적 시 안내합니다.",
+    title: "부가세 (VAT) 포함 정찰제",
+    status: "부가세 포함",
+    detail: "모든 패키지 가격(1인 22만 원 / 2인 44만 원 / 1인 추가 +22만 원)은 부가세 10%가 포함된 금액이며 세금계산서·현금영수증을 발행합니다.",
   },
   {
-    title: "기본 지역 · 출장비",
-    status: "상담 시 안내",
-    detail: "행사 지역 및 이동 거리에 따른 출장비 여부는 장소 확인 후 사전 안내합니다.",
-  },
-  {
-    title: "행사 시간 · 휴식 기준",
+    title: "1일 (8시간) 운영 · 휴식 기준",
     status: "휴식 사이클 포함",
-    detail: "안전과 텐션 유지를 위해 30~40분 활동 후 10~15분 휴식 사이클을 적용합니다.",
+    detail: "1일 8시간 체류 기준이며, 안전과 밝은 텐션 유지를 위해 피크타임 집중 활동과 주기적 실내 휴식·수분 보충을 병행합니다.",
+  },
+  {
+    title: "기본 지역 · 원거리 출장",
+    status: "사전 안내",
+    detail: "기본 운영 권역 외 원거리 지역의 경우 이동 거리에 따른 출장비 여부를 장소 확인 후 투명하게 사전 안내합니다.",
   },
   {
     title: "고객사 현장 준비",
     status: "사전 협의",
-    detail: "인형탈 환복·휴식용 실내 대기 공간과 배포할 홍보물을 사전에 준비합니다.",
+    detail: "인형탈 환복·휴식용 실내 대기 공간과 현장에서 전달할 쿠폰·홍보물을 사전에 준비해 주세요.",
   },
   {
     title: "계약금 · 잔금 정산",
     status: "계약서 명시",
-    detail: "계약 확정 시 계약금(선금) 수령 후 행사 종료 시 잔금을 정산합니다.",
+    detail: "일정 확정 시 계약금(선금) 수령 후 행사 종료 시 잔금을 정산하며 전자·서면 계약을 진행합니다.",
   },
   {
     title: "우천 · 취소 · 환불",
     status: "계약서 명시",
-    detail: "우천 시 실내 대체 또는 일정 변경 기준과 위약금 규정을 서면 합의합니다.",
+    detail: "우천 시 매장 처마·실내 대체 운영 또는 사전 협의를 통한 일정 변경 기준을 서면으로 안내합니다.",
   },
 ];
 
@@ -103,10 +103,10 @@ export default function PackagePage() {
             PACKAGES & PRICING
           </span>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-brand-navy">
-            투명한 가격과 3단계 패키지 구성
+            1일(8시간) · 부가세 포함 심플 정찰제
           </h1>
-          <p className="text-sm sm:text-base text-brand-muted max-w-xl">
-            단일 거점 홍보용 STARTER부터 2인 시너지 주력 BUSINESS, 맞춤형 PREMIUM까지 목적에 맞게 선택하세요.
+          <p className="text-sm sm:text-base text-brand-muted max-w-2xl">
+            중개 거품 없는 직영 보유 코스튬 시스템으로 캐릭터 1명 22만 원, 2명 44만 원(부가세 포함)의 합리적인 종일 패키지를 제공합니다.
           </p>
         </div>
       </section>

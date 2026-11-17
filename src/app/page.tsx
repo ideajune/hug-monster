@@ -54,9 +54,9 @@ export default function HomePage() {
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-brand-navy leading-[1.18] drop-shadow-[0_1px_1px_rgba(255,255,255,0.8)]">
-                우리는 전단지를 돌리지 않습니다.
+                전단지를 그냥 돌리지 않습니다.
                 <br />
-                <span className="text-brand-orange">사람들의 미소와 기억</span>을 만듭니다.
+                <span className="text-brand-orange">사람들의 미소와 기억</span>까지 함께 건넵니다.
               </h1>
 
               <p className="text-base sm:text-xl text-brand-charcoal font-medium leading-relaxed max-w-2xl">
@@ -322,7 +322,7 @@ export default function HomePage() {
                 PRICING & PACKAGES
               </span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-white mt-1">
-                투명한 3단계 표준 패키지
+                1일(8시간) · 부가세 포함 심플 정찰제
               </h2>
             </div>
             <Link

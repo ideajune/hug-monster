@@ -168,24 +168,24 @@ export function CharactersDirectory() {
         ))}
       </div>
 
-      {/* 맞춤 캐릭터 조달 배너 */}
+      {/* 맞춤 캐릭터 추천 배너 */}
       <div className="rounded-card bg-brand-navy text-white p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
         <div className="space-y-1">
           <span className="font-display text-[11px] font-bold uppercase tracking-wider text-brand-yellow">
-            50:50 HYBRID SOURCING
+            CUSTOM CHARACTER MATCHING
           </span>
           <h3 className="text-lg sm:text-xl font-extrabold">
-            원하시는 특정 동물·시즌 캐릭터가 있으신가요?
+            우리 매장·행사에 어떤 캐릭터가 가장 잘 어울릴까요?
           </h3>
           <p className="text-xs sm:text-sm text-slate-300">
-            자체 보유분 외 파트너 조달 네트워크를 통해 행사 콘셉트에 맞는 캐릭터를 섭외해 드립니다.
+            업종 분위기와 주요 방문 연령층에 맞춰 시선 집중 효과가 가장 높은 캐릭터 조합과 1일(8시간) 운영 동선을 추천해 드립니다.
           </p>
         </div>
         <Link
-          href="/contact?character=맞춤 캐릭터 조달 문의"
+          href="/contact?character=맞춤 캐릭터 추천 요청"
           className="inline-flex min-h-[44px] shrink-0 items-center gap-2 rounded-pill bg-brand-orange px-6 py-2.5 text-xs sm:text-sm font-bold text-white hover:bg-[#dc5624] transition-colors"
         >
-          <span>맞춤 캐릭터 문의</span>
+          <span>맞춤 캐릭터 추천받기</span>
           <ArrowRight className="h-4 w-4" />
         </Link>
       </div>

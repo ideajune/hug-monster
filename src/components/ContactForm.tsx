@@ -62,13 +62,14 @@ export function ContactForm() {
     if (qChar) setPreferredCharacter(qChar);
     if (qPkg) {
       if (qPkg.toUpperCase().includes("STARTER")) {
-        setPackageType("STARTER (199,000원)");
-        if (!eventDuration) setEventDuration("2시간 (STARTER 기본)");
+        setPackageType("STARTER (220,000원)");
+        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
       } else if (qPkg.toUpperCase().includes("BUSINESS")) {
-        setPackageType("BUSINESS (349,000원 · 추천)");
-        if (!eventDuration) setEventDuration("3시간 (BUSINESS 기본)");
+        setPackageType("BUSINESS (440,000원)");
+        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
       } else if (qPkg.toUpperCase().includes("PREMIUM")) {
-        setPackageType("PREMIUM (별도 견적)");
+        setPackageType("PREMIUM (660,000원~)");
+        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
       } else {
         setPackageType(qPkg);
       }
@@ -526,10 +527,10 @@ export function ContactForm() {
             }`}
           >
             <option value="">예상 시간을 선택해 주세요</option>
-            <option value="2시간 (STARTER 기본)">2시간 (STARTER 기본)</option>
-            <option value="3시간 (BUSINESS 기본)">3시간 (BUSINESS 기본)</option>
-            <option value="4시간 이상 (반일 운영)">4시간 이상 (반일 운영)</option>
-            <option value="종일 또는 다회차 행사">종일 또는 다회차 행사</option>
+            <option value="1일 종일 (8시간 기본 · 휴식 포함)">1일 종일 (8시간 기본 · 휴식 포함)</option>
+            <option value="오전·점심 피크타임 집중 운영">오전·점심 피크타임 집중 운영</option>
+            <option value="오후·저녁 피크타임 집중 운영">오후·저녁 피크타임 집중 운영</option>
+            <option value="다일차 (2일 이상 연속 행사)">다일차 (2일 이상 연속 행사)</option>
             <option value="상담 후 결정">상담 후 결정</option>
           </select>
           {fieldErrors.event_duration && (
@@ -600,7 +601,7 @@ export function ContactForm() {
           <input
             id="budget"
             type="text"
-            placeholder="예: 20만원~35만원 / 별도 협의"
+            placeholder="예: 22만원(1인) / 44만원(2인) / 다인원 협의"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
             className="w-full min-h-[48px] rounded-xl border border-brand-navy/20 bg-brand-offwhite px-4 py-3 text-sm text-brand-charcoal placeholder:text-brand-muted/60 focus:border-brand-navy focus:outline-none"
