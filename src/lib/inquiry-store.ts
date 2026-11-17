@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import fs from "fs/promises";
+import os from "os";
 import path from "path";
 import crypto from "crypto";
 
@@ -37,6 +38,7 @@ export interface ConnectionDiagnostics {
 
 const LOCAL_DB_DIR = path.join(process.cwd(), "data");
 const LOCAL_DB_FILE = path.join(LOCAL_DB_DIR, "inquiries.json");
+const TMP_FALLBACK_FILE = path.join(os.tmpdir(), "hug-monster-inquiries.json");
 
 function isRealEnvValue(val: string | undefined): boolean {
   if (!val) return false;
@@ -132,21 +134,38 @@ const INITIAL_SAMPLE_INQUIRIES: InquiryRecord[] = [
 ];
 
 async function readLocalInquiries(): Promise<InquiryRecord[]> {
+  // 서버리스(읽기 전용 FS) 환경에서 임시 경로에 저장된 데이터가 있으면 우선 조회
   try {
-    await fs.mkdir(LOCAL_DB_DIR, { recursive: true });
+    const tmpRaw = await fs.readFile(TMP_FALLBACK_FILE, "utf-8");
+    const tmpParsed = JSON.parse(tmpRaw);
+    if (Array.isArray(tmpParsed)) return tmpParsed;
+  } catch {
+    // ignore if tmp file does not exist
+  }
+
+  try {
     const raw = await fs.readFile(LOCAL_DB_FILE, "utf-8");
     const parsed = JSON.parse(raw);
     return Array.isArray(parsed) ? parsed : INITIAL_SAMPLE_INQUIRIES;
   } catch {
-    await fs.mkdir(LOCAL_DB_DIR, { recursive: true });
-    await fs.writeFile(LOCAL_DB_FILE, JSON.stringify(INITIAL_SAMPLE_INQUIRIES, null, 2), "utf-8");
+    try {
+      await fs.mkdir(LOCAL_DB_DIR, { recursive: true });
+      await fs.writeFile(LOCAL_DB_FILE, JSON.stringify(INITIAL_SAMPLE_INQUIRIES, null, 2), "utf-8");
+    } catch {
+      // 읽기 전용 환경(Vercel 등)에서는 파일 생성 생략 후 메모리 기본값 반환
+    }
     return INITIAL_SAMPLE_INQUIRIES;
   }
 }
 
 async function writeLocalInquiries(records: InquiryRecord[]): Promise<void> {
-  await fs.mkdir(LOCAL_DB_DIR, { recursive: true });
-  await fs.writeFile(LOCAL_DB_FILE, JSON.stringify(records, null, 2), "utf-8");
+  try {
+    await fs.mkdir(LOCAL_DB_DIR, { recursive: true });
+    await fs.writeFile(LOCAL_DB_FILE, JSON.stringify(records, null, 2), "utf-8");
+  } catch {
+    // Vercel 등 읽기 전용 파일시스템 환경에서 500 에러를 방지하기 위한 /tmp 폴백
+    await fs.writeFile(TMP_FALLBACK_FILE, JSON.stringify(records, null, 2), "utf-8");
+  }
 }
 
 export async function createInquiry(

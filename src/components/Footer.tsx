@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { Phone, Mail, MapPin, Clock, ArrowUpRight, ShieldCheck } from "lucide-react";
-import { BRAND_INFO } from "@/lib/site-data";
+import { Phone, Mail, MapPin, Clock, ArrowUpRight } from "lucide-react";
+import { BRAND_INFO, NAV_ITEMS } from "@/lib/site-data";
 
 export function Footer() {
   return (
@@ -43,14 +43,18 @@ export function Footer() {
               NAVIGATION
             </h2>
             <ul className="grid grid-cols-2 gap-1.5 text-xs sm:text-sm text-slate-300">
-              <li><Link href="/" className="hover:text-white transition-colors py-1 inline-block">HOME</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors py-1 inline-block">ABOUT</Link></li>
-              <li><Link href="/characters" className="hover:text-white transition-colors py-1 inline-block">CHARACTERS</Link></li>
-              <li><Link href="/service" className="hover:text-white transition-colors py-1 inline-block">SERVICE</Link></li>
-              <li><Link href="/package" className="hover:text-white transition-colors py-1 inline-block">PACKAGE</Link></li>
-              <li><Link href="/portfolio" className="hover:text-white transition-colors py-1 inline-block">PORTFOLIO</Link></li>
-              <li><Link href="/how-it-works" className="hover:text-white transition-colors py-1 inline-block">HOW IT WORKS</Link></li>
-              <li><Link href="/contact" className="hover:text-brand-orange font-bold text-white transition-colors py-1 inline-block">CONTACT</Link></li>
+              {NAV_ITEMS.map((item) => (
+                <li key={item.href}>
+                  <Link href={item.href} className="hover:text-white transition-colors py-1 inline-block">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/contact" className="hover:text-brand-orange font-bold text-white transition-colors py-1 inline-block">
+                  CONTACT
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -107,10 +111,6 @@ export function Footer() {
             </Link>
             <Link href="/how-it-works#policy" className="hover:text-white underline underline-offset-4">
               계약·환불 기준
-            </Link>
-            <Link href="/admin" className="inline-flex items-center gap-1 hover:text-white">
-              <ShieldCheck className="h-3.5 w-3.5" />
-              <span>관리자</span>
             </Link>
           </div>
         </div>

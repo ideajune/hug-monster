@@ -6,27 +6,30 @@ import {
   Info,
   Plus,
 } from "lucide-react";
-import { PACKAGES, PACKAGE_ADDONS } from "@/lib/site-data";
+import { PACKAGES, PACKAGE_ADDONS, getPackageById } from "@/lib/site-data";
 import { CtaBanner } from "@/components/CtaBanner";
+
+const starterPkg = getPackageById("STARTER");
+const businessPkg = getPackageById("BUSINESS");
+const premiumPkg = getPackageById("PREMIUM");
 
 export const metadata: Metadata = {
   title: "PACKAGE — 1일(8시간) 정찰제 패키지 안내",
-  description:
-    "캐릭터 1명 22만 원, 2명 44만 원(1일 8시간 · 부가세 포함), 1명 추가당 +22만 원 투명 정찰제 패키지 안내.",
+  description: `STARTER(${starterPkg.priceText}), BUSINESS(${businessPkg.priceText}), PREMIUM(${premiumPkg.priceText}) 1일(8시간) 부가세 포함 정찰제 안내.`,
 };
 
 const COMPARISON_ROWS = [
   {
     feature: "판매 가격 (부가세 포함)",
-    starter: "220,000원",
-    business: "440,000원",
-    premium: "660,000원~ (+22만/명)",
+    starter: starterPkg.priceText,
+    business: businessPkg.priceText,
+    premium: `${premiumPkg.priceText} (+22만/명)`,
   },
   {
     feature: "투입 캐릭터",
-    starter: "캐릭터 1명",
-    business: "캐릭터 2명",
-    premium: "캐릭터 3명 이상",
+    starter: starterPkg.characterCount,
+    business: businessPkg.characterCount,
+    premium: premiumPkg.characterCount,
   },
   {
     feature: "운영 시간",

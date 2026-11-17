@@ -100,6 +100,26 @@ export const BRAND_INFO = {
   },
 };
 
+export const NAV_ITEMS = [
+  { label: "HOME", href: "/" },
+  { label: "ABOUT", href: "/about" },
+  { label: "CHARACTERS", href: "/characters" },
+  { label: "SERVICE", href: "/service" },
+  { label: "PACKAGE", href: "/package" },
+  { label: "PORTFOLIO", href: "/portfolio" },
+  { label: "HOW IT WORKS", href: "/how-it-works" },
+] as const;
+
+export const DEFAULT_EVENT_DURATION = "1일 종일 (8시간 기본 · 휴식 포함)";
+
+export const EVENT_DURATION_OPTIONS = [
+  DEFAULT_EVENT_DURATION,
+  "오전·점심 피크타임 집중 운영",
+  "오후·저녁 피크타임 집중 운영",
+  "다일차 (2일 이상 연속 행사)",
+  "상담 후 결정",
+] as const;
+
 export const CORE_VALUES = [
   {
     code: "ENTERTAIN",
@@ -491,6 +511,14 @@ export const PACKAGES: PackageItem[] = [
     conditionNote: "3인 기준 부가세(VAT) 포함 금액이며, 캐릭터 1명 추가 시 +220,000원씩 동일 적용됩니다.",
   },
 ];
+
+export function getPackageById(id: PackageItem["id"]): PackageItem {
+  return PACKAGES.find((pkg) => pkg.id === id) ?? PACKAGES[0];
+}
+
+export function formatPackageOptionLabel(pkg: PackageItem): string {
+  return `${pkg.name} (${pkg.priceText})`;
+}
 
 export const PACKAGE_ADDONS = [
   {

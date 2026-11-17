@@ -3,18 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, PhoneCall, ArrowUpRight, ShieldCheck } from "lucide-react";
-import { BRAND_INFO } from "@/lib/site-data";
-
-const NAV_ITEMS = [
-  { label: "HOME", href: "/" },
-  { label: "ABOUT", href: "/about" },
-  { label: "CHARACTERS", href: "/characters" },
-  { label: "SERVICE", href: "/service" },
-  { label: "PACKAGE", href: "/package" },
-  { label: "PORTFOLIO", href: "/portfolio" },
-  { label: "HOW IT WORKS", href: "/how-it-works" },
-];
+import { Menu, X, PhoneCall, ArrowUpRight } from "lucide-react";
+import { BRAND_INFO, NAV_ITEMS } from "@/lib/site-data";
 
 export function Header() {
   const pathname = usePathname();
@@ -59,14 +49,14 @@ export function Header() {
         </Link>
 
         {/* 데스크톱 내비게이션 */}
-        <nav className="hidden xl:flex items-center gap-1" aria-label="주요 메뉴">
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="주요 메뉴">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-3.5 py-2 rounded-full font-display text-xs font-bold tracking-wider transition-all ${
+                className={`px-3 xl:px-3.5 py-2 rounded-full font-display text-xs font-bold tracking-wider transition-all ${
                   active
                     ? "bg-brand-navy text-white"
                     : "text-brand-charcoal hover:bg-slate-200/60 hover:text-brand-navy"
@@ -93,7 +83,7 @@ export function Header() {
         <button
           type="button"
           onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="inline-flex xl:hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-slate-200 bg-white text-brand-navy hover:bg-slate-50"
+          className="inline-flex lg:hidden min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-slate-200 bg-white text-brand-navy hover:bg-slate-50"
           aria-expanded={mobileMenuOpen}
           aria-controls="mobile-navigation"
           aria-label={mobileMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
@@ -106,7 +96,7 @@ export function Header() {
       {mobileMenuOpen && (
         <div
           id="mobile-navigation"
-          className="xl:hidden border-t border-slate-200 bg-white px-5 pt-4 pb-6 shadow-xl"
+          className="lg:hidden border-t border-slate-200 bg-white px-5 pt-4 pb-6 shadow-xl"
         >
           <nav className="flex flex-col space-y-1" aria-label="모바일 메뉴">
             {NAV_ITEMS.map((item) => {

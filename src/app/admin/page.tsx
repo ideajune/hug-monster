@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -25,7 +25,7 @@ import type {
 const STATUS_OPTIONS: InquiryStatus[] = ["신규", "상담 중", "계약 완료", "종료"];
 
 export default function AdminPage() {
-  const [passcode, setPasscode] = useState("hugmonster2026");
+  const [passcode, setPasscode] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,22 +35,6 @@ export default function AdminPage() {
   const [warning, setWarning] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("전체");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-
-  const fetchDiagnosticsOnly = useCallback(async () => {
-    try {
-      const res = await fetch("/api/inquiries?diagnostics=1");
-      const data = await res.json();
-      if (data.diagnostics) {
-        setDiagnostics(data.diagnostics);
-      }
-    } catch {
-      // ignore
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchDiagnosticsOnly();
-  }, [fetchDiagnosticsOnly]);
 
   const loadInquiries = useCallback(
     async (codeToUse: string) => {
@@ -140,8 +124,8 @@ export default function AdminPage() {
           </Link>
         </div>
 
-        {/* 데이터베이스 및 외부 서비스 연결 상태 진단 패널 (마스터 프롬프트 6번·12번 준수) */}
-        {diagnostics && (
+        {/* 인증 완료 시에만 시스템 진단 패널 표시 */}
+        {authenticated && diagnostics && (
           <div
             className={`rounded-card border-2 p-6 sm:p-7 space-y-4 ${
               diagnostics.supabaseConfigured
@@ -245,14 +229,12 @@ export default function AdminPage() {
               <input
                 id="admin_passcode"
                 type="password"
+                autoComplete="current-password"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
                 className="w-full min-h-[46px] rounded-xl border border-brand-navy/20 bg-brand-offwhite px-4 py-2.5 text-sm font-mono"
                 placeholder="관리자 패스코드 입력"
               />
-              <p className="text-[11px] text-brand-muted mt-1.5">
-                * 초기 테스트 편의를 위해 기본 패스코드(<code className="font-mono">hugmonster2026</code>)가 자동 입력되어 있습니다. 운영 배포 시 <code className="font-mono">.env.local</code>의 <code className="font-mono">ADMIN_PASSCODE</code>를 변경하세요.
-              </p>
             </div>
 
             <button

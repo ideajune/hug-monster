@@ -8,22 +8,21 @@ import {
   CheckCircle2,
   AlertCircle,
   Sparkles,
-  Database,
-  ShieldCheck,
+  Home,
   RefreshCw,
 } from "lucide-react";
-import { CHARACTERS, PACKAGES, SERVICES } from "@/lib/site-data";
-
-interface FieldErrors {
-  contact_name?: string;
-  phone?: string;
-  email?: string;
-  event_type?: string;
-  event_date?: string;
-  event_location?: string;
-  event_duration?: string;
-  privacy_consent?: string;
-}
+import {
+  CHARACTERS,
+  DEFAULT_EVENT_DURATION,
+  EVENT_DURATION_OPTIONS,
+  PACKAGES,
+  SERVICES,
+  formatPackageOptionLabel,
+} from "@/lib/site-data";
+import {
+  InquiryFieldErrors,
+  validateInquiryFields,
+} from "@/lib/inquiry-validation";
 
 export function ContactForm() {
   const searchParams = useSearchParams();
@@ -43,14 +42,12 @@ export function ContactForm() {
   const [privacyConsent, setPrivacyConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
 
-  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
+  const [fieldErrors, setFieldErrors] = useState<InquiryFieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedRecord, setSubmittedRecord] = useState<{
     id: string;
     contact_name: string;
-    storage_source?: "supabase" | "local_file";
-    supabaseConfigured: boolean;
   } | null>(null);
 
   // URL 쿼리 파라미터(character, package, eventType) 자동 반영 (CHA-05, SER-04)
@@ -61,15 +58,10 @@ export function ContactForm() {
 
     if (qChar) setPreferredCharacter(qChar);
     if (qPkg) {
-      if (qPkg.toUpperCase().includes("STARTER")) {
-        setPackageType("STARTER (220,000원)");
-        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
-      } else if (qPkg.toUpperCase().includes("BUSINESS")) {
-        setPackageType("BUSINESS (440,000원)");
-        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
-      } else if (qPkg.toUpperCase().includes("PREMIUM")) {
-        setPackageType("PREMIUM (660,000원~)");
-        if (!eventDuration) setEventDuration("1일 종일 (8시간 기본 · 휴식 포함)");
+      const matched = PACKAGES.find((p) => qPkg.toUpperCase().includes(p.id));
+      if (matched) {
+        setPackageType(formatPackageOptionLabel(matched));
+        if (!eventDuration) setEventDuration(DEFAULT_EVENT_DURATION);
       } else {
         setPackageType(qPkg);
       }
@@ -77,36 +69,18 @@ export function ContactForm() {
     if (qEvent) setEventType(qEvent);
   }, [searchParams, eventDuration]);
 
-  const validate = (): FieldErrors => {
-    const errors: FieldErrors = {};
-    if (!contactName.trim()) {
-      errors.contact_name = "업체명 또는 담당자 성함을 입력해 주세요.";
-    }
-    if (!phone.trim()) {
-      errors.phone = "연락 받으실 전화번호를 입력해 주세요.";
-    } else if (!/^[0-9+\-\s()]{8,20}$/.test(phone.trim())) {
-      errors.phone = "유효한 전화번호 형식을 입력해 주세요. (예: 010-1234-5678)";
-    }
-    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      errors.email = "올바른 이메일 주소를 입력해 주세요.";
-    }
-    if (!eventType.trim()) {
-      errors.event_type = "행사 유형을 선택해 주세요.";
-    }
-    if (!eventDate.trim()) {
-      errors.event_date = "행사 희망 날짜를 선택해 주세요.";
-    }
-    if (!eventLocation.trim()) {
-      errors.event_location = "행사 장소(지역 또는 주소)를 입력해 주세요.";
-    }
-    if (!eventDuration.trim()) {
-      errors.event_duration = "예상 행사 시간을 선택 또는 입력해 주세요.";
-    }
-    if (!privacyConsent) {
-      errors.privacy_consent = "상담 진행을 위해 개인정보 수집 및 이용에 동의해 주세요.";
-    }
-    return errors;
-  };
+  const validate = (): InquiryFieldErrors =>
+    validateInquiryFields({
+      contact_name: contactName,
+      company_name: companyName,
+      phone,
+      email,
+      event_type: eventType,
+      event_date: eventDate,
+      event_location: eventLocation,
+      event_duration: eventDuration,
+      privacy_consent: privacyConsent,
+    });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -160,8 +134,6 @@ export function ContactForm() {
       setSubmittedRecord({
         id: data.record.id,
         contact_name: data.record.contact_name,
-        storage_source: data.record.storage_source,
-        supabaseConfigured: Boolean(data.diagnostics?.supabaseConfigured),
       });
     } catch (err) {
       setSubmitError(
@@ -212,31 +184,17 @@ export function ContactForm() {
           </p>
         </div>
 
-        {/* 데이터베이스 저장 상태 투명 안내 */}
-        <div className="max-w-lg mx-auto rounded-2xl bg-brand-offwhite border border-brand-navy/10 p-4 text-left space-y-1.5 text-xs">
-          <div className="flex items-center justify-between font-bold text-brand-navy">
-            <span className="flex items-center gap-1.5">
-              <Database className="h-4 w-4 text-brand-orange" />
-              저장 상태
-            </span>
-            <span className="rounded-full bg-brand-navy text-white px-2.5 py-0.5 text-[11px]">
-              {submittedRecord.supabaseConfigured
-                ? "Supabase DB 저장 완료"
-                : "로컬 DB (data/inquiries.json) 저장 완료"}
-            </span>
-          </div>
-          <p className="text-brand-muted">
-            접수 번호: <code className="font-mono text-brand-navy">{submittedRecord.id}</code>
-          </p>
+        <div className="max-w-md mx-auto rounded-2xl bg-brand-offwhite border border-brand-navy/10 p-4 text-xs text-brand-muted">
+          접수 번호: <code className="font-mono font-bold text-brand-navy">{submittedRecord.id}</code>
         </div>
 
         <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link
-            href="/admin"
+            href="/"
             className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-pill bg-brand-navy px-6 py-3 text-sm font-bold text-white hover:bg-brand-orange transition-colors"
           >
-            <ShieldCheck className="h-4 w-4" />
-            <span>관리자 페이지 확인</span>
+            <Home className="h-4 w-4" />
+            <span>홈으로 돌아가기</span>
           </Link>
           <button
             type="button"
@@ -527,11 +485,11 @@ export function ContactForm() {
             }`}
           >
             <option value="">예상 시간을 선택해 주세요</option>
-            <option value="1일 종일 (8시간 기본 · 휴식 포함)">1일 종일 (8시간 기본 · 휴식 포함)</option>
-            <option value="오전·점심 피크타임 집중 운영">오전·점심 피크타임 집중 운영</option>
-            <option value="오후·저녁 피크타임 집중 운영">오후·저녁 피크타임 집중 운영</option>
-            <option value="다일차 (2일 이상 연속 행사)">다일차 (2일 이상 연속 행사)</option>
-            <option value="상담 후 결정">상담 후 결정</option>
+            {EVENT_DURATION_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
           </select>
           {fieldErrors.event_duration && (
             <p className="mt-1.5 text-xs font-semibold text-red-600 flex items-center gap-1">
@@ -559,7 +517,7 @@ export function ContactForm() {
           >
             <option value="">상담 후 결정</option>
             {PACKAGES.map((pkg) => (
-              <option key={pkg.id} value={`${pkg.name} (${pkg.priceText})`}>
+              <option key={pkg.id} value={formatPackageOptionLabel(pkg)}>
                 {pkg.name} — {pkg.priceText} ({pkg.characterCount}, {pkg.duration})
               </option>
             ))}

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { verifyAdminRequest } from "@/lib/admin-auth";
 import { InquiryStatus, updateInquiryStatus } from "@/lib/inquiry-store";
 
 const ALLOWED_STATUSES: InquiryStatus[] = ["신규", "상담 중", "계약 완료", "종료"];
@@ -7,12 +8,11 @@ export async function PATCH(
   req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const headerPass = req.headers.get("x-admin-passcode") || "";
-  const expectedPass = process.env.ADMIN_PASSCODE || "hugmonster2026";
-  if (headerPass !== expectedPass) {
+  const auth = verifyAdminRequest(req);
+  if (!auth.authorized) {
     return NextResponse.json(
-      { ok: false, error: "관리자 인증 권한이 없습니다." },
-      { status: 401 }
+      { ok: false, error: auth.errorMessage || "관리자 인증 권한이 없습니다." },
+      { status: auth.statusCode || 401 }
     );
   }
 
